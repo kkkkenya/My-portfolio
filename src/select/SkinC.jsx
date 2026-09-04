@@ -141,13 +141,7 @@ export default function SkinC() {
   const [crt, setCrt] = useState(() => readConsent() !== "denied")
   const [consent, setConsent] = useState(() => readConsent())
   const [legal, setLegal] = useState(null) // null | cookies | terms | privacy
-  const [paint, setPaint] = useState(() => {
-    try {
-      return localStorage.getItem("gmk-paint") || "volt"
-    } catch {
-      return "volt"
-    }
-  })
+  const [paint] = useState("volt")
   const [detail, setDetail] = useState(null)
   const [lights, setLights] = useState(null) // null | 1..3 | "GO" (+proj in ref)
   const scrollRef = useRef(null)
@@ -178,18 +172,7 @@ export default function SkinC() {
   const preview = roster[active]
   const pspec = spec(preview)
 
-  // persist paint job
-  useEffect(() => {
-    try {
-      localStorage.setItem("gmk-paint", paint)
-    } catch {
-      /* private mode: paint just doesn't stick */
-    }
-  }, [paint])
-
-  const cyclePaint = useCallback(() => {
-    setPaint((p) => (p === "volt" ? "heat" : p === "heat" ? "sunset" : "volt"))
-  }, [])
+  /* paint locked to VOLT */
 
   // cookie-consent settings: all / necessary (fx only) / denied — persisted
   const choose = useCallback((c) => {
@@ -507,8 +490,7 @@ export default function SkinC() {
             GREGORY KIMEMIAH <span className="ga-hide-m">· RUIRU GP</span>
           </span>
           <span className="ga-cookies">
-            <button className="ga-cookie" onClick={cyclePaint} title="Switch paint job">PAINT:{paint.toUpperCase()}</button>
-            <a className="ga-cookie" href={`mailto:${profile.email}`}>HIRE ME</a>
+            <a className="ga-cookie" href={`mailto:${profile.email}`}>✉ HIRE ME</a>
           </span>
         </div>
         <div className="ga-checker ga-checkline" />
@@ -613,9 +595,7 @@ export default function SkinC() {
       {/* compact stage card for phones */}
       <button className="ga-mobilecard ga-hud" onClick={() => select(preview)} aria-label={`Open ${preview.lines.join(" ")}`}>
         <h4>{preview.lines.join(" ")}</h4>
-        <p className="blurb">{preview.blurb}</p>
-        <p className="meta">{preview.year} · {preview.stack.join(" / ")}</p>
-        <p className="go">▸ {preview.cta}</p>
+        <p className="go">▸ TAP TO OPEN</p>
       </button>
 
       {/* bottom bar */}
@@ -650,7 +630,7 @@ export default function SkinC() {
             {legal === "cookies" && (
               <>
                 <h4>What this site stores</h4>
-                <p>Everything stays on your device, in browser local storage. Three keys: gmk-paint (your paint job), gmk-consent (this cookie choice), plus your sound and effects preferences. Purpose: remembering settings between visits. Entries persist until you clear site data.</p>
+                <p>Everything stays on your device, in browser local storage: your cookie choice (gmk-consent) plus your sound and effects preferences. Purpose: remembering settings between visits. Entries persist until you clear site data.</p>
                 <h4>What this site does not store</h4>
                 <p>No accounts, no analytics cookies, no advertising trackers set by me.</p>
                 <h4>Third parties</h4>
