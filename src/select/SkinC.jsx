@@ -633,6 +633,8 @@ export default function SkinC() {
         <div className="ga-cmdrow">
           <span>
             <button onClick={() => setLegal("cookies")}>📜 LEGAL</button>
+            {" · "}
+            <button onClick={() => setConsent(null)}>🍪 COOKIES</button>
             <span className="ga-hide-m"> · © 2026 {profile.name}</span>
           </span>
           <a className="ga-cookie hire-cta ga-show-m" href={`mailto:${profile.email}`}>✉ HIRE ME</a>
