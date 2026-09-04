@@ -2,9 +2,9 @@ import { useCallback, useEffect, useRef, useState } from "react"
 import "./skin-c.css"
 import { profile, roster } from "./roster"
 
-// Skin C: night-heat racing garage on the same spiral engine.
+// Skin C: volt-night racing garage on the same spiral engine.
 // Ghost-grid roster, pole-position lights up, spec card with plates,
-// cash purse, start-light sequence, elastic edges.
+// start-light sequence, elastic edges.
 
 // --- diversified SFX kit: ticks, chimes, count beeps, back sweep ---
 function tone({ freq = 660, end = null, dur = 0.07, type = "square", vol = 0.04, delay = 0 }) {
@@ -150,14 +150,29 @@ export default function SkinC() {
   })
   const [detail, setDetail] = useState(null)
   const [lights, setLights] = useState(null) // null | 1..3 | "GO" (+proj in ref)
-  const [purse, setPurse] = useState(1200)
   const scrollRef = useRef(null)
   const listRef = useRef(null)
   const rowsRef = useRef([])
   const smoothRef = useRef(new Map())
+  const blurCache = useRef(new Map()) // cell -> last applied blur step
   const lightsProj = useRef(null)
   const activeRef = useRef(active)
   activeRef.current = active
+  // mobile picker mode: infinite loop, center row auto-highlights
+  const [isMobile, setIsMobile] = useState(() =>
+    typeof window !== "undefined" ? window.matchMedia("(max-width: 767px)").matches : false
+  )
+  const mobileRef = useRef(false)
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 767px)")
+    const apply = () => {
+      mobileRef.current = mq.matches
+      setIsMobile(mq.matches)
+    }
+    apply()
+    mq.addEventListener("change", apply)
+    return () => mq.removeEventListener("change", apply)
+  }, [])
 
   const item = detail ?? roster[active]
   const preview = roster[active]
@@ -217,17 +232,55 @@ export default function SkinC() {
 
       const vh = window.innerHeight
       const cy = vh / 2
-      rowsRef.current.forEach((cell, i) => {
+      let best = -1
+      let bestD = Infinity
+      rowsRef.current.forEach((cell) => {
         if (!cell) return
         const r = cell.getBoundingClientRect()
-        const dist = Math.abs(r.top + r.height / 2 - cy) / (vh / 2)
+        const cyOff = r.top + r.height / 2 - cy
+        const dist = Math.abs(cyOff) / (vh / 2)
+        const idx = Number(cell.dataset.idx)
         const base = -45 + (1 - Math.min(dist * 1.35, 1)) * 33
-        const target = i === activeRef.current ? -4 : base
+        const target = idx === activeRef.current ? -4 : base
         const prev = smoothRef.current.get(cell) ?? target
         const next = reduced ? target : prev + (target - prev) * 0.16
         smoothRef.current.set(cell, next)
         cell.style.setProperty("--ry", `${next.toFixed(2)}deg`)
+        // rotational blur: edges smear like a spinning drum (mobile loop)
+        const wantBlur =
+          reduced || !mobileRef.current ? 0 : Math.min(6, Math.max(0, (dist - 0.3) * 7))
+        const step = Math.round(wantBlur * 2) / 2
+        if (blurCache.current.get(cell) !== step) {
+          blurCache.current.set(cell, step)
+          cell.style.setProperty("--blur", `${step}px`)
+        }
+        if (mobileRef.current && Math.abs(cyOff) < bestD) {
+          bestD = Math.abs(cyOff)
+          best = idx
+        }
       })
+      if (mobileRef.current) {
+        if (best >= 0 && best !== activeRef.current) {
+          activeRef.current = best
+          setActive(best)
+        }
+        // infinite loop: recycle inside the middle copy using the measured period
+        const N = roster.length
+        const first0 = rowsRef.current[0]
+        const first1 = rowsRef.current[N]
+        const midLast = rowsRef.current[2 * N - 1]
+        if (first0 && first1 && midLast) {
+          const period = first1.offsetTop - first0.offsetTop
+          if (period > 0) {
+            const vhC = scroller.clientHeight
+            const lo = first1.offsetTop - vhC * 0.85
+            const hi = midLast.offsetTop + midLast.offsetHeight - vhC * 0.15
+            const st = scroller.scrollTop
+            if (st < lo) scroller.scrollTop = st + period
+            else if (st > hi) scroller.scrollTop = st - period
+          }
+        }
+      }
     }
     raf = requestAnimationFrame(frame)
     return () => cancelAnimationFrame(raf)
@@ -317,11 +370,54 @@ export default function SkinC() {
     }
   }, [])
 
+  // mobile: start on the middle copy, default stage centered (deterministic)
+  useEffect(() => {
+    if (!isMobile) return
+    const id = requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        const scroller = scrollRef.current
+        const el = rowsRef.current[roster.length + 3]
+        if (el && scroller) {
+          scroller.scrollTop = el.offsetTop + el.offsetHeight / 2 - scroller.clientHeight / 2
+        }
+      })
+    })
+    return () => cancelAnimationFrame(id)
+  }, [isMobile])
+
+  // mobile: finger scrolls must not trigger taps
+  const suppressTap = useRef(false)
+  useEffect(() => {
+    const scroller = scrollRef.current
+    if (!scroller) return
+    let sx = 0
+    let sy = 0
+    const ts = (e) => {
+      const t = e.touches[0]
+      sx = t.clientX
+      sy = t.clientY
+    }
+    const te = (e) => {
+      const t = e.changedTouches[0]
+      if (Math.hypot(t.clientX - sx, t.clientY - sy) > 12) {
+        suppressTap.current = true
+        setTimeout(() => {
+          suppressTap.current = false
+        }, 350)
+      }
+    }
+    scroller.addEventListener("touchstart", ts, { passive: true })
+    scroller.addEventListener("touchend", te)
+    return () => {
+      scroller.removeEventListener("touchstart", ts)
+      scroller.removeEventListener("touchend", te)
+    }
+  }, [])
+
   const hover = useCallback(
     (i) => {
       setActive((prev) => {
         if (prev !== i) {
-          setPurse((p) => p + 100)
           if (sfx) sfxHover(i)
         }
         return i
@@ -332,6 +428,7 @@ export default function SkinC() {
 
   const select = useCallback(
     (proj) => {
+      if (suppressTap.current) return
       const sound = sfx
       if (sound) sfxSelect()
       lightsProj.current = proj
@@ -351,7 +448,6 @@ export default function SkinC() {
       }, 1140)
       setTimeout(() => {
         setLights(null)
-        setPurse((p) => p + 1000)
         setDetail(lightsProj.current)
       }, 1750)
     },
@@ -376,7 +472,6 @@ export default function SkinC() {
         e.preventDefault()
         setActive((a) => {
           const n = (a + 1) % roster.length
-          setPurse((p) => p + 100)
           if (sfx) sfxHover(n)
           rowsRef.current[n]?.scrollIntoView({ block: "nearest", behavior: "smooth" })
           return n
@@ -386,7 +481,6 @@ export default function SkinC() {
         e.preventDefault()
         setActive((a) => {
           const n = (a - 1 + roster.length) % roster.length
-          setPurse((p) => p + 100)
           if (sfx) sfxHover(n)
           rowsRef.current[n]?.scrollIntoView({ block: "nearest", behavior: "smooth" })
           return n
@@ -410,15 +504,11 @@ export default function SkinC() {
       <div className="ga-topbar ga-hud">
         <div className="ga-toprow">
           <span>
-            NIGHT HEAT <span className="ga-hide-m">· RUIRU GP</span>
+            GREGORY KIMEMIAH <span className="ga-hide-m">· RUIRU GP</span>
           </span>
           <span className="ga-cookies">
-            <span className="ck">🍪</span>
-            <button className={`ga-cookie${cookieMode === "all" ? " is-on" : ""}`} onClick={() => choose("all")}>ACCEPT ALL</button>
-            <button className={`ga-cookie${cookieMode === "necessary" ? " is-on" : ""}`} onClick={() => choose("necessary")}>NECESSARY</button>
-            <button className={`ga-cookie${cookieMode === "denied" ? " is-on" : ""}`} onClick={() => choose("denied")}>DENY</button>
             <button className="ga-cookie" onClick={cyclePaint} title="Switch paint job">PAINT:{paint.toUpperCase()}</button>
-            <a className="ga-cookie" href={`mailto:${profile.email}`}>✉ HIRE ME</a>
+            <a className="ga-cookie" href={`mailto:${profile.email}`}>HIRE ME</a>
           </span>
         </div>
         <div className="ga-checker ga-checkline" />
@@ -435,18 +525,20 @@ export default function SkinC() {
       <div className="ga-scroll" ref={scrollRef}>
         <div className="ga-tall">
           <ul className="ga-list" ref={listRef}>
-            {roster.map((p, i) => (
-              <li
-                key={p.id}
-                className={`ga-row ga-enter ${i === active ? "is-active" : ""}`}
-                style={{ animationDelay: `${0.25 + i * 0.09}s` }}
-              >
-                <span
-                  className="ga-cell"
-                  ref={(el) => {
-                    rowsRef.current[i] = el
-                  }}
+            {Array.from({ length: isMobile ? 3 : 1 }).flatMap((_, copy) =>
+              roster.map((p, i) => (
+                <li
+                  key={`${copy}-${p.id}`}
+                  className={`ga-row ga-enter ${i === active ? "is-active" : ""}`}
+                  style={{ animationDelay: `${0.25 + i * 0.09}s` }}
                 >
+                  <span
+                    className="ga-cell"
+                    data-idx={i}
+                    ref={(el) => {
+                      rowsRef.current[copy * roster.length + i] = el
+                    }}
+                  >
                   <button
                     className="ga-pick"
                     data-year={p.year}
@@ -459,7 +551,8 @@ export default function SkinC() {
                   </button>
                 </span>
               </li>
-            ))}
+              ))
+            )}
           </ul>
         </div>
       </div>
@@ -517,17 +610,102 @@ export default function SkinC() {
         </div>
       )}
 
+      {/* compact stage card for phones */}
+      <button className="ga-mobilecard ga-hud" onClick={() => select(preview)} aria-label={`Open ${preview.lines.join(" ")}`}>
+        <h4>{preview.lines.join(" ")}</h4>
+        <p className="blurb">{preview.blurb}</p>
+        <p className="meta">{preview.year} · {preview.stack.join(" / ")}</p>
+        <p className="go">▸ {preview.cta}</p>
+      </button>
+
       {/* bottom bar */}
       <footer className="ga-cmdbar ga-hud">
         <div className="ga-cmdrow">
           <span>
             <button onClick={() => setLegal("cookies")}>📜 LEGAL</button>
-            <span className="ga-hide-m"> · {profile.name}</span>
+            <span className="ga-hide-m"> · © 2026 {profile.name}</span>
           </span>
-          <span className="ga-purse">$ {purse.toLocaleString("en-US")} PURSE</span>
+          <button className="ga-cookie" onClick={() => { if (!sfx) sfxToggle(true); setSfx((v) => !v) }}>SFX:{sfx ? "ON" : "OFF"}</button>
         </div>
       </footer>
 
+
+      {/* legal hub: cookies / terms / privacy */}
+      {legal && (
+        <div className="ga-sheet">
+          <button className="ga-backbtn ga-hud" onClick={() => setLegal(null)}>
+            CLOSE RULEBOOK [ESC]
+          </button>
+          <p className="ga-hud" style={{ marginTop: 24, fontSize: 22, color: "var(--yellow)" }}>
+            RULEBOOK: LAST UPDATED SEPTEMBER 2026
+          </p>
+          <div className="ga-legaltabs ga-hud">
+            {[["cookies", "COOKIES"], ["terms", "TERMS"], ["privacy", "PRIVACY"]].map(([k, label]) => (
+              <button key={k} className={`ga-legaltab${legal === k ? " is-on" : ""}`} onClick={() => setLegal(k)}>
+                {label}
+              </button>
+            ))}
+          </div>
+          <div className="ga-legalbody">
+            {legal === "cookies" && (
+              <>
+                <h4>What this site stores</h4>
+                <p>Everything stays on your device, in browser local storage. Three keys: gmk-paint (your paint job), gmk-consent (this cookie choice), plus your sound and effects preferences. Purpose: remembering settings between visits. Entries persist until you clear site data.</p>
+                <h4>What this site does not store</h4>
+                <p>No accounts, no analytics cookies, no advertising trackers set by me.</p>
+                <h4>Third parties</h4>
+                <ul>
+                  <li>Google Fonts: typefaces load from Google servers, which may receive your IP address and user agent under the Google Privacy Policy.</li>
+                  <li>Hosting provider: server logs kept for security and abuse prevention.</li>
+                </ul>
+                <h4>Manage your choice</h4>
+                <p>Set it right here, or wipe it by clearing this site data in your browser settings.</p>
+                <div className="ga-legaltabs ga-hud" style={{ marginTop: 10 }}>
+                  <button className={`ga-legaltab${cookieMode === "all" ? " is-on" : ""}`} onClick={() => choose("all")}>ACCEPT ALL</button>
+                  <button className={`ga-legaltab${cookieMode === "necessary" ? " is-on" : ""}`} onClick={() => choose("necessary")}>NECESSARY</button>
+                  <button className={`ga-legaltab${cookieMode === "denied" ? " is-on" : ""}`} onClick={() => choose("denied")}>DENY</button>
+                </div>
+              </>
+            )}
+            {legal === "terms" && (
+              <>
+                <h4>Who this is</h4>
+                <p>This portfolio belongs to Gregory Kimemiah, Nairobi, Kenya. Contact: gregorykimemiah@gmail.com.</p>
+                <h4>What it is for</h4>
+                <p>Showing selected work and inviting freelance inquiries. One project name is deliberately withheld for venture sensitivity; everything else is shown as labeled.</p>
+                <h4>Ownership</h4>
+                <p>Design, code, and copy here are mine unless credited otherwise. Client names appear where a working relationship exists. Third-party trademarks belong to their owners.</p>
+                <h4>External links</h4>
+                <p>Links to engineeringhub.site, mesa.co.ke, life-reset-v.vercel.app, GitHub, and LinkedIn leave this site. I am not responsible for what those sites do.</p>
+                <h4>No warranty</h4>
+                <p>Content is provided as is, with no guarantee of availability or fitness for any purpose.</p>
+                <h4>Fair use</h4>
+                <p>Do not scrape, clone, or republish this site wholesale. Short quotes with credit are fine. Ask before reusing artwork or copy.</p>
+                <h4>Changes and law</h4>
+                <p>These terms may change with the site. Kenyan law applies.</p>
+              </>
+            )}
+            {legal === "privacy" && (
+              <>
+                <h4>Controller</h4>
+                <p>Gregory Kimemiah, gregorykimemiah@gmail.com. The Kenya Data Protection Act, 2019 applies.</p>
+                <h4>Data I collect</h4>
+                <p>Nothing automatically. If you email me, I receive whatever you send, and use it only to reply. Your settings never leave your browser.</p>
+                <h4>Processors</h4>
+                <p>Hosting provider (serves the files, keeps security logs) and your email provider (delivers your message). No data sales, no profiling.</p>
+                <h4>Retention</h4>
+                <p>Correspondence is kept only as long as the conversation needs it. Local settings persist until you clear them.</p>
+                <h4>Your rights</h4>
+                <p>Access, correction, and deletion on request: email me and I will act within 30 days.</p>
+                <h4>Children</h4>
+                <p>This portfolio is not directed at children under 13, and I knowingly collect nothing from them.</p>
+                <h4>Changes</h4>
+                <p>Material changes will be noted here with a new date.</p>
+              </>
+            )}
+          </div>
+        </div>
+      )}
 
       {/* detail = race telemetry */}
       {detail && (
@@ -539,8 +717,8 @@ export default function SkinC() {
             🏁 CHEQUERED: {item.year} · {item.role} · 0-100 {spec(item).accel}s
           </p>
           <h2
+            className="ga-dtitle"
             style={{
-              fontSize: "clamp(48px,9vw,150px)",
               lineHeight: 0.9,
               textTransform: "uppercase",
               fontWeight: 900,

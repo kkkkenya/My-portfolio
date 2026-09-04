@@ -120,7 +120,7 @@
 }
 .ti-logo .l1 {
   display: block;
-  font-size: clamp(56px, 13vw, 190px);
+  font-size: clamp(44px, 12vw, 190px);
   color: var(--volt);
   -webkit-text-stroke: 3px #000;
   paint-order: stroke fill;
@@ -131,7 +131,7 @@
 }
 .ti-logo .l2 {
   display: block;
-  font-size: clamp(56px, 13vw, 190px);
+  font-size: clamp(44px, 12vw, 190px);
   color: transparent;
   -webkit-text-stroke: 3px var(--bone);
   text-shadow: 0 0 34px rgba(242, 239, 228, 0.35);
@@ -241,6 +241,10 @@
   }
   .ti-start {
     margin-top: 32px;
+    padding: 8px 30px;
+  }
+  .ti-hint {
+    font-size: 18px;
   }
 }
 

@@ -30,7 +30,7 @@ export default function TitleScreen({ onStart }) {
       </div>
 
       <div className="ti-center">
-        <div className="ti-edition ti-hud">★ NIGHT HEAT EDITION ★</div>
+        <div className="ti-edition ti-hud">★ GREGORY KIMEMIAH ★</div>
         <h1 className="ti-logo">
           <span className="l1">Gregory</span>
           <span className="l2">Kimemiah</span>
