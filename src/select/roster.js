@@ -6,12 +6,12 @@
 export const roster = [
   {
     id: "paddock",
-    lines: ["Paddock"],
+    lines: ["About Me"],
     year: "2026",
     stack: ["KU MechEng", "React", "Claude", "M-Pesa"],
     role: "Driver Profile",
     blurb: "Driver profile: the engineer behind every stage on this grid. MechEng Year 2, class rep, vice chair, builder of AI products and communities.",
-    cta: "MEET THE DRIVER",
+    cta: "GET TO KNOW ME",
     points: [
       "Gregory Kimemiah: Year 2 Mechanical Engineering at Kenyatta University, Nairobi. Class Representative since September 2024, Vice Chair of MESA KU since Year 2. Expected graduation 2029.",
       "Three years of freelance web development (Vite, React, TypeScript, shadcn/ui) plus AI products on Claude and Gemini, with M-Pesa and Paystack integrations. Industrial attachment completed.",
@@ -27,7 +27,7 @@ export const roster = [
   },
   {
     id: "ai-builds",
-    lines: ["AI", "Builds"],
+    lines: ["AI Projects"],
     year: "2026",
     stack: ["Claude", "Gemini", "M-Pesa", "Supabase"],
     role: "Claude / Gemini",
@@ -45,7 +45,7 @@ export const roster = [
   },
   {
     id: "community",
-    lines: ["Community"],
+    lines: ["Leadership"],
     year: "2024",
     stack: ["Discord", "Web", "Events", "MESA"],
     role: "Founder / Vice Chair",
@@ -66,7 +66,7 @@ export const roster = [
   },
   {
     id: "tech-stack",
-    lines: ["Tech", "Stack"],
+    lines: ["Tech Skills"],
     year: "2026",
     stack: ["TypeScript", "React", "Python", "M-Pesa"],
     role: "TS / React / AI",
@@ -82,7 +82,7 @@ export const roster = [
   },
   {
     id: "mech-eng",
-    lines: ["Mech", "Eng"],
+    lines: ["Engineering"],
     year: "2024",
     stack: ["Kenyatta Univ.", "Year 2", "Class Rep"],
     role: "B.Sc. Year 2",
@@ -98,7 +98,7 @@ export const roster = [
   },
   {
     id: "field-work",
-    lines: ["Field", "Work"],
+    lines: ["Client Work"],
     year: "2023",
     stack: ["React", "shadcn/ui", "Teaching", "Clients"],
     role: "3 yrs Experience",
