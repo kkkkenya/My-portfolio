@@ -214,16 +214,29 @@
   position: fixed;
   inset: 0;
   z-index: 90;
-  background: #060614;
+  background: rgba(6, 6, 20, 0.72);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: clamp(26px, 4vw, 44px);
   letter-spacing: 0.35em;
   text-indent: 0.35em;
-  color: var(--volt);
+  color: #c8ff2e;
   text-shadow: 0 0 26px rgba(200, 255, 46, 0.8);
+  animation: ti-loadfade 0.8s ease-out backwards;
+}
+.ti-loading span {
   animation: ti-startpulse 0.5s steps(2) infinite;
+}
+@keyframes ti-loadfade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @media (max-width: 767px) {
@@ -255,7 +268,8 @@
   }
   .ti-start,
   .ti-credit,
-  .ti-loading {
+  .ti-loading,
+  .ti-loading span {
     animation: none;
   }
 }

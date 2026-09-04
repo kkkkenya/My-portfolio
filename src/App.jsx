@@ -10,7 +10,7 @@ export default function App() {
   const start = useCallback(() => {
     setPhase((p) => {
       if (p !== "title") return p
-      setTimeout(() => setPhase("game"), 900)
+      setTimeout(() => setPhase("game"), 1400)
       return "loading"
     })
   }, [])
@@ -20,7 +20,7 @@ export default function App() {
     <>
       <TitleScreen onStart={start} />
       {phase === "loading" && (
-        <div className="ti-loading ti-hud">NOW LOADING…</div>
+        <div className="ti-loading ti-hud"><span>NOW LOADING…</span></div>
       )}
     </>
   )
