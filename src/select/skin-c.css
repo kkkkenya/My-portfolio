@@ -286,6 +286,13 @@ a.ga-cookie {
   color: var(--yellow);
   box-shadow: 0 0 10px color-mix(in srgb, var(--yellow) 45%, transparent);
 }
+/* mobile-only: thumb-zone hire button + stage dots */
+.ga-show-m {
+  display: none;
+}
+.ga-dots {
+  display: none;
+}
 /* first-visit consent banner */
 .ga-consent {
   position: absolute;
@@ -770,6 +777,41 @@ a.ga-cookie {
   }
   .ga-hide-m {
     display: none;
+  }
+  .ga-show-m {
+    display: inline-block;
+  }
+  .ga-cookie.hire-cta {
+    border-color: var(--yellow);
+    color: var(--yellow);
+  }
+  .ga-dots {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    position: absolute;
+    left: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 30;
+  }
+  .ga-dot {
+    background: none;
+    border: 0;
+    padding: 7px;
+    cursor: pointer;
+  }
+  .ga-dot i {
+    display: block;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    border: 1px solid var(--dim);
+  }
+  .ga-dot.is-on i {
+    background: var(--yellow);
+    border-color: var(--yellow);
+    box-shadow: 0 0 10px color-mix(in srgb, var(--yellow) 80%, transparent);
   }
 }
 

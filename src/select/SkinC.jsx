@@ -246,6 +246,13 @@ export default function SkinC() {
         if (best >= 0 && best !== activeRef.current) {
           activeRef.current = best
           setActive(best)
+          if (typeof navigator !== "undefined" && navigator.vibrate) {
+            try {
+              navigator.vibrate(8)
+            } catch {
+              /* haptics unsupported: stay silent */
+            }
+          }
         }
         // infinite loop: recycle inside the middle copy using the measured period
         const N = roster.length
@@ -394,6 +401,15 @@ export default function SkinC() {
     return () => {
       scroller.removeEventListener("touchstart", ts)
       scroller.removeEventListener("touchend", te)
+    }
+  }, [])
+
+  const gotoStage = useCallback((i) => {
+    setActive(i)
+    const scroller = scrollRef.current
+    const el = rowsRef.current[roster.length + i] ?? rowsRef.current[i]
+    if (scroller && el) {
+      scroller.scrollTop = el.offsetTop + el.offsetHeight / 2 - scroller.clientHeight / 2
     }
   }, [])
 
@@ -598,6 +614,20 @@ export default function SkinC() {
         <p className="go">▸ TAP TO OPEN</p>
       </button>
 
+      {/* stage dots (mobile) */}
+      <nav className="ga-dots ga-hud" aria-label="Stages">
+        {roster.map((p, i) => (
+          <button
+            key={p.id}
+            className={`ga-dot${i === active ? " is-on" : ""}`}
+            onClick={() => gotoStage(i)}
+            aria-label={`Go to ${p.lines.join(" ")}`}
+          >
+            <i />
+          </button>
+        ))}
+      </nav>
+
       {/* bottom bar */}
       <footer className="ga-cmdbar ga-hud">
         <div className="ga-cmdrow">
@@ -605,6 +635,7 @@ export default function SkinC() {
             <button onClick={() => setLegal("cookies")}>📜 LEGAL</button>
             <span className="ga-hide-m"> · © 2026 {profile.name}</span>
           </span>
+          <a className="ga-cookie hire-cta ga-show-m" href={`mailto:${profile.email}`}>✉ HIRE ME</a>
           <button className="ga-cookie" onClick={() => { if (!sfx) sfxToggle(true); setSfx((v) => !v) }}>SFX:{sfx ? "ON" : "OFF"}</button>
         </div>
       </footer>
