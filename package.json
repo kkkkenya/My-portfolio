@@ -1,7 +1,8 @@
 {
-  "name": "default-project",
+  "name": "my-portfolio",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "description": "Gregory Kimemiah — arcade-style engineering portfolio (Night Heat title screen + stage select)",
   "type": "module",
   "scripts": {
     "dev": "vite",

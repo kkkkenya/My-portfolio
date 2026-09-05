@@ -12,6 +12,11 @@ dist
 dist-ssr
 *.local
 
+# Saved-page exports belong to other projects — never commit here
+first-principles.html
+site-export.zip
+gregory.html
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
