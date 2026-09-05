@@ -1,31 +1,32 @@
-# Gregory Kimemiah — Portfolio (Night Heat)
+# Gregory Muhoro — Portfolio
 
-Arcade-style engineering portfolio: a "Night Heat" title screen leading into a
-stage-select garage. Stages: About Me, AI Projects, Leadership, Tech Skills,
-Engineering, Client Work.
+A single-page portfolio built with Vite + React + TypeScript + Tailwind CSS.
 
-## Stack
-
-React 19 + Vite + Tailwind CSS v4. Signature theme: volt (`#c8ff2e`) on asphalt
-(`#0c0c22`).
-
-## Develop
+## Run locally
 
 ```bash
 npm install
-npm run dev      # http://localhost:5173
+npm run dev
 ```
 
-## Build & deploy
+Opens at http://localhost:5173
+
+## Build for production
 
 ```bash
-npm run build    # outputs dist/
+npm run build
 ```
 
-Production deploys to Vercel from `main` (`my-portfolio` project).
+Outputs static files to `dist/` — upload that folder as-is to Truehost, or
+connect the repo to Vercel and it will build automatically (build command
+`npm run build`, output directory `dist`).
 
-## Project layout
+## Where to edit content
 
-- `src/App.jsx` — title screen → loading beat → garage entry
-- `src/select/` — TitleScreen, SkinA–D stage skins, roster data, stage CSS
-- `public/gregory.png` — profile photo (also the OG/social image)
+All the text on the page — projects, experience, expertise, contact info —
+lives in one place: `src/data.ts`. Edit that file and the whole site updates.
+
+## Where to edit design
+
+- Colors, fonts and spacing tokens: `src/index.css` (the `@theme` block)
+- Layout of each section: `src/components/*.tsx`
