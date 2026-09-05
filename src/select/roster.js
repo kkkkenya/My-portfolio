@@ -3,7 +3,7 @@
 // `lines` controls the 2-line breaks like the original (Studio / Mega).
 // `hue` drives the placeholder thumbnail gradient per pick.
 // Photos render in the DETAIL view only — never in the picker list or garage card.
-import about1 from "../assets/portfolio/about-1.jpg"
+import gregoryPortrait from "../assets/portfolio/gregory-portrait.jpg"
 import execGloria from "../assets/portfolio/exec-gloria.jpg"
 import execGodwin from "../assets/portfolio/exec-godwin.jpg"
 import execIsaac from "../assets/portfolio/exec-isaac.jpg"
@@ -33,7 +33,7 @@ export const roster = [
       { label: "github.com/kkkkenya", url: "https://github.com/kkkkenya" },
       { label: "LinkedIn", url: "https://www.linkedin.com/in/gregory-muhoro-ba2161387/" },
     ],
-    image: about1,
+    image: gregoryPortrait,
     stats: { PWR: 88, SPD: 92, STY: 90 },
     hue: 75,
   },
