@@ -2,6 +2,17 @@
 // Each stage summarizes its records inside (blurb + points + links).
 // `lines` controls the 2-line breaks like the original (Studio / Mega).
 // `hue` drives the placeholder thumbnail gradient per pick.
+// Photos render in the DETAIL view only — never in the picker list or garage card.
+import about1 from "../assets/portfolio/about-1.jpg"
+import execGloria from "../assets/portfolio/exec-gloria.jpg"
+import execGodwin from "../assets/portfolio/exec-godwin.jpg"
+import execIsaac from "../assets/portfolio/exec-isaac.jpg"
+import execLewis from "../assets/portfolio/exec-lewis.jpg"
+import execLyneford from "../assets/portfolio/exec-lyneford.jpg"
+import execNoelyn from "../assets/portfolio/exec-noelyn.jpg"
+import execStephen from "../assets/portfolio/exec-stephen.jpg"
+import execTeddy from "../assets/portfolio/exec-teddy.jpg"
+import execWiseman from "../assets/portfolio/exec-wiseman.jpg"
 
 export const roster = [
   {
@@ -22,6 +33,7 @@ export const roster = [
       { label: "github.com/kkkkenya", url: "https://github.com/kkkkenya" },
       { label: "LinkedIn", url: "https://www.linkedin.com/in/gregory-muhoro-ba2161387/" },
     ],
+    image: about1,
     stats: { PWR: 88, SPD: 92, STY: 90 },
     hue: 75,
   },
@@ -60,6 +72,18 @@ export const roster = [
     links: [
       { label: "engineeringhub.site", url: "https://engineeringhub.site" },
       { label: "mesa.co.ke", url: "https://mesa.co.ke" },
+    ],
+    // Captions inferred from filenames only — confirm names/roles before shipping.
+    images: [
+      { src: execGloria, caption: "Gloria" },
+      { src: execGodwin, caption: "Godwin" },
+      { src: execIsaac, caption: "Isaac" },
+      { src: execLewis, caption: "Lewis" },
+      { src: execLyneford, caption: "Lyneford" },
+      { src: execNoelyn, caption: "Noelyn" },
+      { src: execStephen, caption: "Stephen" },
+      { src: execTeddy, caption: "Teddy" },
+      { src: execWiseman, caption: "Wiseman" },
     ],
     stats: { PWR: 78, SPD: 90, STY: 94 },
     hue: 210,

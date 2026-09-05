@@ -644,6 +644,45 @@ a.ga-cookie {
 .ga-dtitle {
   font-size: clamp(40px, 9vw, 150px);
 }
+/* detail-view photos: sharp arcade framing, no soft corners */
+.ga-detail-photo {
+  display: block;
+  width: min(320px, 100%);
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  margin: 18px 0 4px;
+  border: 2px solid #000;
+  outline: 2px solid var(--yellow);
+  outline-offset: 4px;
+  background: #000;
+}
+.ga-crew {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(128px, 1fr));
+  gap: 14px;
+  max-width: 640px;
+  margin-top: 20px;
+}
+.ga-crew-card {
+  margin: 0;
+}
+.ga-crew-card img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  border: 2px solid #000;
+  box-shadow: 4px 4px 0 var(--red);
+  background: #000;
+}
+.ga-crew-card figcaption {
+  margin-top: 8px;
+  font-family: "VT323", monospace;
+  font-size: 17px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--bone);
+}
 .ga-root button,
 .ga-root a {
   -webkit-tap-highlight-color: transparent;

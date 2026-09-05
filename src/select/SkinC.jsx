@@ -742,6 +742,14 @@ export default function SkinC() {
           >
             {item.lines.join(" ")}
           </h2>
+          {item.image && (
+            <img
+              src={item.image}
+              alt="Gregory Kimemiah"
+              loading="lazy"
+              className="ga-detail-photo"
+            />
+          )}
           <p style={{ maxWidth: 620, marginTop: 8, lineHeight: 1.55 }}>{item.blurb}</p>
           <p className="ga-hud" style={{ fontSize: 20, opacity: 0.75 }}>{item.stack.join(" / ")}</p>
           {item.points && (
@@ -750,6 +758,16 @@ export default function SkinC() {
                 <li key={pt} style={{ marginBottom: 10 }}>{pt}</li>
               ))}
             </ul>
+          )}
+          {item.images && (
+            <div className="ga-crew">
+              {item.images.map((im) => (
+                <figure key={im.caption} className="ga-crew-card">
+                  <img src={im.src} alt={im.caption} loading="lazy" />
+                  <figcaption>{im.caption}</figcaption>
+                </figure>
+              ))}
+            </div>
           )}
           {item.quote && (
             <p style={{ maxWidth: 620, marginTop: 18, paddingLeft: 16, borderLeft: "3px solid var(--yellow)", fontStyle: "italic", lineHeight: 1.55 }}>
