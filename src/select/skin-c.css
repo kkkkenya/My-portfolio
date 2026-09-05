@@ -763,6 +763,7 @@ a.ga-cookie {
     right: 12px;
     bottom: 62px;
     z-index: 25;
+    transition: bottom 0.3s ease;
     background: rgba(8, 8, 14, 0.93);
     border: 1px solid var(--dim);
     border-left: 4px solid var(--yellow);
@@ -771,6 +772,11 @@ a.ga-cookie {
     text-align: left;
     color: inherit;
     font: inherit;
+  }
+  /* first visit: consent banner (~180px tall at bottom:78px) covers bottom:62px,
+     so lift the tap-to-open card clear above it until consent is answered */
+  .ga-mobilecard--shifted {
+    bottom: 270px;
   }
   .ga-mobilecard h4 {
     margin: 0;

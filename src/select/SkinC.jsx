@@ -610,7 +610,7 @@ export default function SkinC() {
       )}
 
       {/* compact stage card for phones */}
-      <button className="ga-mobilecard ga-hud" onClick={() => select(preview)} aria-label={`Open ${preview.lines.join(" ")}`}>
+      <button className={`ga-mobilecard ga-hud${consent === null ? " ga-mobilecard--shifted" : ""}`} onClick={() => select(preview)} aria-label={`Open ${preview.lines.join(" ")}`}>
         <h4>{preview.lines.join(" ")}</h4>
         <p className="go">▸ TAP TO OPEN</p>
       </button>
