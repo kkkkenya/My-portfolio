@@ -546,6 +546,7 @@ export default function SkinC() {
                   >
                     {i === active && <span className="ga-cursor">▸</span>}
                     {p.lines.join(" ")}
+                    <span className="ga-year">{p.year}</span>
                   </button>
                 </span>
               </li>

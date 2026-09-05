@@ -198,6 +198,10 @@
   transform: rotate(25deg);
   pointer-events: none;
 }
+/* year chip lives inside the row on mobile; hidden on desktop (desktop keeps ::before) */
+.ga-year {
+  display: none;
+}
 
 @keyframes ga-in {
   from {
@@ -686,7 +690,7 @@ a.ga-cookie {
     perspective: 400vw;
   }
   .ga-tall {
-    padding: 26vh 6vw 26vh 0;
+    padding: 26vh 8vw 26vh 0;
   }
   .ga-list {
     width: 100%;
@@ -698,15 +702,35 @@ a.ga-cookie {
     filter: blur(var(--blur, 0px));
   }
   .ga-pick {
-    font-size: 8.6vw;
+    font-size: 8.2vw;
     -webkit-text-stroke-width: 1.5px;
     padding-left: 0.7em;
   }
+  /* years no longer float outside the row on mobile — they live inside it */
   .ga-pick::before {
-    top: 6px;
-    left: auto;
-    right: 0;
-    width: auto;
+    display: none;
+  }
+  .ga-year {
+    display: inline-block;
+    font-family: "VT323", monospace;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    letter-spacing: 0.2em;
+    color: var(--dim);
+    -webkit-text-stroke: 0;
+    text-shadow: none;
+    border: 1px solid var(--dim);
+    background: rgba(0, 0, 0, 0.35);
+    padding: 1px 8px 0;
+    margin-left: 0.6em;
+    vertical-align: middle;
+    white-space: nowrap;
+  }
+  .ga-row.is-active .ga-year {
+    color: var(--yellow);
+    border-color: var(--yellow);
+    box-shadow: 0 0 10px color-mix(in srgb, var(--yellow) 45%, transparent);
   }
   .ga-garage {
     display: none;
