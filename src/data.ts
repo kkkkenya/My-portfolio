@@ -85,6 +85,18 @@ export const projects: Project[] = [
   },
 ]
 
+export type Stat = {
+  value: number
+  suffix: string
+  label: string
+}
+
+export const stats: Stat[] = [
+  { value: 120, suffix: '', label: 'Study Hub members' },
+  { value: 27, suffix: '', label: 'verified events tracked' },
+  { value: 66, suffix: '-day', label: 'habit window' },
+]
+
 export type ExperienceItem = {
   role: string
   org: string

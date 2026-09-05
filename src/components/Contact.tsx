@@ -1,10 +1,11 @@
 import { ArrowUpRight } from 'lucide-react'
 import { profile } from '../data'
+import { Reveal } from './Reveal'
 
 export function Contact() {
   return (
     <section id="contact" className="blueprint-grid-fine">
-      <div className="mx-auto max-w-5xl px-6 py-20 md:py-28">
+      <Reveal className="mx-auto max-w-5xl px-6 py-20 md:py-28">
         <h2 className="max-w-lg font-display text-3xl font-semibold leading-tight text-paper md:text-4xl">
           Have a project in mind? Let's talk.
         </h2>
@@ -23,7 +24,7 @@ export function Contact() {
         <p className="mt-6 font-tag text-sm text-paper-dim">
           {profile.location}
         </p>
-      </div>
+      </Reveal>
     </section>
   )
 }

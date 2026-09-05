@@ -1,6 +1,7 @@
 import { Plus } from 'lucide-react'
 import { useState } from 'react'
 import { experience } from '../data'
+import { Reveal } from './Reveal'
 
 export function Experience() {
   const [openIndex, setOpenIndex] = useState<number | null>(0)
@@ -8,11 +9,13 @@ export function Experience() {
   return (
     <section id="experience" className="border-b border-line-soft">
       <div className="mx-auto max-w-5xl px-6 py-20 md:py-28">
-        <h2 className="font-display text-2xl font-semibold text-paper md:text-3xl">
-          Experience
-        </h2>
+        <Reveal>
+          <h2 className="font-display text-2xl font-semibold text-paper md:text-3xl">
+            Experience
+          </h2>
+        </Reveal>
 
-        <div className="mt-12 border-y border-line">
+        <Reveal delay={120} className="mt-12 border-y border-line">
           {experience.map((item, index) => {
             const isOpen = openIndex === index
             return (
@@ -52,7 +55,7 @@ export function Experience() {
               </div>
             )
           })}
-        </div>
+        </Reveal>
       </div>
     </section>
   )

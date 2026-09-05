@@ -1,14 +1,17 @@
 import { expertise } from '../data'
+import { Reveal } from './Reveal'
 
 export function Expertise() {
   return (
     <section id="expertise" className="border-b border-line-soft">
       <div className="mx-auto max-w-5xl px-6 py-20 md:py-28">
-        <h2 className="max-w-md font-display text-2xl font-semibold text-paper md:text-3xl">
-          Where I spend my time
-        </h2>
+        <Reveal>
+          <h2 className="max-w-md font-display text-2xl font-semibold text-paper md:text-3xl">
+            Where I spend my time
+          </h2>
+        </Reveal>
 
-        <div className="mt-12 grid gap-px overflow-hidden border border-line bg-line md:grid-cols-2">
+        <Reveal delay={120} className="mt-12 grid gap-px overflow-hidden border border-line bg-line md:grid-cols-2">
           {expertise.map((item) => (
             <div
               key={item.code}
@@ -25,7 +28,7 @@ export function Expertise() {
               </p>
             </div>
           ))}
-        </div>
+        </Reveal>
       </div>
     </section>
   )

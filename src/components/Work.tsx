@@ -1,28 +1,34 @@
 import { ExternalLink } from 'lucide-react'
 import { projects } from '../data'
 import { PhotoSlot } from './PhotoSlot'
+import { Reveal } from './Reveal'
+import { Schematic } from './Schematic'
 
 export function Work() {
   return (
     <section id="work" className="border-b border-line-soft bg-surface/40">
       <div className="mx-auto max-w-5xl px-6 py-20 md:py-28">
-        <div className="flex flex-wrap items-end justify-between gap-4">
+        <Reveal className="flex flex-wrap items-end justify-between gap-4">
           <h2 className="font-display text-2xl font-semibold text-paper md:text-3xl">
             Selected work
           </h2>
           <p className="max-w-xs text-sm text-paper-dim">
             Projects built solo or with a small team, shipped and in use.
           </p>
-        </div>
+        </Reveal>
 
-        <PhotoSlot
-          label="Action"
-          hint="Gregory at work — laptop or whiteboard, candid, landscape"
-          ratio="aspect-[16/9] md:aspect-[21/9]"
-          className="mt-10 w-full"
-        />
+        <Schematic className="mx-auto mt-10 max-w-5xl px-6" />
 
-        <div className="mt-12 divide-y divide-line border-y border-line">
+        <Reveal delay={100}>
+          <PhotoSlot
+            label="Action"
+            hint="Gregory at work — laptop or whiteboard, candid, landscape"
+            ratio="aspect-[16/9] md:aspect-[21/9]"
+            className="mt-10 w-full"
+          />
+        </Reveal>
+
+        <Reveal delay={100} className="mt-12 divide-y divide-line border-y border-line">
           {projects.map((project) => (
             <article
               key={project.title}
@@ -59,7 +65,7 @@ export function Work() {
               </div>
             </article>
           ))}
-        </div>
+        </Reveal>
       </div>
     </section>
   )
