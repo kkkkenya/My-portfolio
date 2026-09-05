@@ -813,9 +813,9 @@ a.ga-cookie {
   .ga-dots {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 8px;
     position: absolute;
-    left: 6px;
+    left: 16px;
     top: 50%;
     transform: translateY(-50%);
     z-index: 30;
@@ -823,7 +823,7 @@ a.ga-cookie {
   .ga-dot {
     background: none;
     border: 0;
-    padding: 7px;
+    padding: 12px;
     cursor: pointer;
   }
   .ga-dot i {
