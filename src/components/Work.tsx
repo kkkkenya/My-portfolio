@@ -17,7 +17,9 @@ export function Work() {
           </p>
         </Reveal>
 
-        <Schematic className="mx-auto mt-10 max-w-5xl px-6" />
+        <Reveal>
+          <Schematic className="mx-auto mt-10 max-w-5xl px-6" />
+        </Reveal>
 
         <Reveal delay={100}>
           <PhotoSlot

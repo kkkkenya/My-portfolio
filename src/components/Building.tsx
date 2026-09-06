@@ -44,7 +44,9 @@ export function Building() {
             className="w-full self-start"
           />
         </Reveal>
-        <Schematic className="mt-16" />
+        <Reveal>
+          <Schematic className="mt-16" />
+        </Reveal>
       </div>
     </section>
   )
