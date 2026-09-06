@@ -66,6 +66,13 @@ export function Schematic({ className = '' }: { className?: string }) {
           pathLength={1}
           style={{ strokeDashoffset: 1 - progress }}
         />
+        {/* independent ambient pulse: energy flowing along the trace on its own loop */}
+        <path
+          className="pulse"
+          d="M-10 84 H200 L244 40 H400 L444 84 H596 L640 40 H810"
+          pathLength={1}
+          opacity={progress > 0.02 ? 0.9 : 0}
+        />
         <path
           className="draw"
           d="M244 40 V12 H330"

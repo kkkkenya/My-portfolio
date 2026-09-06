@@ -166,3 +166,24 @@ svg .milestone-year {
   letter-spacing: 0.18em;
   fill: var(--color-paper-dim);
 }
+
+/* independent ambient pulse: a current segment forever traveling the trace.
+   Runs on its own loop regardless of scroll position. */
+@keyframes dash-march {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: -1;
+  }
+}
+
+svg .pulse {
+  stroke: var(--color-amber);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-dasharray: 0.09 0.91;
+  animation: dash-march 3.2s linear infinite;
+  opacity: 0.9;
+  filter: drop-shadow(0 0 6px var(--color-amber));
+}
