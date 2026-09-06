@@ -52,12 +52,15 @@ export function Hero() {
           <span className="font-tag text-xs text-paper-dim/70">
             Engaged with
           </span>
-          {affiliations.map((name) => (
+          {affiliations.map((item) => (
             <span
-              key={name}
+              key={item.name}
               className="font-display text-sm text-paper-dim"
             >
-              {name}
+              {item.name}
+              <span className="ml-2 font-tag text-xs text-paper-dim/70">
+                {item.role}
+              </span>
             </span>
           ))}
         </div>

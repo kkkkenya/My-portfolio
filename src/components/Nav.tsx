@@ -2,6 +2,7 @@ import { Menu, X } from 'lucide-react'
 import { useState } from 'react'
 
 const links = [
+  { href: '#about', label: 'About' },
   { href: '#expertise', label: 'Expertise' },
   { href: '#work', label: 'Work' },
   { href: '#experience', label: 'Experience' },

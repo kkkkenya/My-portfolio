@@ -40,7 +40,7 @@ export function Building() {
           <PhotoSlot
             label="Detail"
             hint="Study Hub in action — community or session snapshot"
-            ratio="aspect-square"
+            ratio="aspect-[16/9] md:aspect-square"
             className="w-full self-start"
           />
         </Reveal>
