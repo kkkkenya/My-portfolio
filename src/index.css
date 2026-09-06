@@ -183,7 +183,7 @@ svg .pulse {
   stroke-width: 2.5;
   stroke-linecap: round;
   stroke-dasharray: 0.09 0.91;
-  animation: dash-march 3.2s linear infinite;
-  opacity: 0.9;
+  animation: dash-march 16s linear infinite;
+  opacity: 0.75;
   filter: drop-shadow(0 0 6px var(--color-amber));
 }
