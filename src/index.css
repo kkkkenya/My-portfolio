@@ -141,38 +141,28 @@ a {
   transform: none;
 }
 
-/* scroll-drawn schematic divider */
-.schematic svg {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-
-.schematic .draw {
+/* scroll-scrubbed schematic divider — dashoffset is driven per-frame by
+   scroll position, so NO transition here (it would lag behind scrolling) */
+svg .draw {
   stroke: var(--color-teal);
   stroke-width: 2;
   stroke-dasharray: 1;
   stroke-dashoffset: 1;
-  transition: stroke-dashoffset 1.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.schematic .draw-branch {
-  transition-duration: 1.1s;
-  transition-delay: 0.55s;
-}
-
-.schematic.is-visible .draw {
-  stroke-dashoffset: 0;
-}
-
-.schematic .node {
+svg .node {
   fill: var(--color-ink);
   stroke: var(--color-amber);
   stroke-width: 2;
-  opacity: 0;
-  transition: opacity 0.4s ease;
 }
 
-.schematic.is-visible .node {
-  opacity: 1;
+svg .milestone {
+  transition: opacity 0.35s ease;
+}
+
+svg .milestone-year {
+  font-family: var(--font-tag);
+  font-size: 15px;
+  letter-spacing: 0.18em;
+  fill: var(--color-paper-dim);
 }

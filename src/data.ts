@@ -79,6 +79,7 @@ export const projects: Project[] = [
     description:
       'A paid Discord community for Kenyan engineering students — structured resources, peer support and accountability, now 120 members strong and growing.',
     tags: ['Community', 'Discord'],
+    link: 'https://www.engineeringhub.site/',
     category: 'founder',
   },
   {
