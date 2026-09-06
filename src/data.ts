@@ -21,7 +21,7 @@ export const affiliations: Affiliation[] = [
 
 export const aboutBio: string[] = [
   'Gregory writes code the way he solves thermodynamics problems — first principles, then execution. He\u2019s spent the last three years shipping real websites for real clients, and the last year building the infrastructure an entire engineering cohort now runs on.',
-  'When he\u2019s not in a lecture hall, he\u2019s debugging a WhatsApp bot, tutoring a KCSE student through fluid dynamics, or making the case that the Engineering Study Hub should exist for every department at Kenyatta University — not just his own.',
+  'When he\u2019s not in a lecture hall, he\u2019s debugging a WhatsApp bot, running a First Principles session on fluid dynamics, or making the case that the Engineering Study Hub should exist for every department at Kenyatta University — not just his own.',
   'Before doubling down on the Hub, he ran freelance web projects for three years and tested a couple of ventures of his own — proof he\u2019s just as comfortable building the business as the app.',
 ]
 
@@ -61,7 +61,7 @@ export const expertise: Expertise[] = [
   {
     code: 'LEAD',
     title: 'Community & teaching',
-    body: 'Vice Chair of a 120-member student association, plus one-on-one KCSE physics tutoring built on first-principles derivation, not formula recall.',
+    body: 'Vice Chair of a 120-member student association, plus founder of First Principles — one-on-one STEM tutoring that trains reasoning behind the grade, not formula recall.',
   },
 ]
 
@@ -96,6 +96,14 @@ export const projects: Project[] = [
       'A full habit-tracking app built around the 66-day habit-formation window — adaptive AI coaching, a 7-pillar life system, quests and cross-device sync.',
     tags: ['React', 'Supabase', 'Gemini API'],
     link: 'https://life-reset-v.vercel.app/',
+    category: 'founder',
+  },
+  {
+    title: 'First Principles Tutoring',
+    description:
+      'One-to-one tutoring in Mathematics, Physics and Chemistry for high-performing Form 2–4 students — training the reasoning behind the grade so students keep their scholarships, not just earn them.',
+    tags: ['React', 'Education'],
+    link: 'https://first-principles-alpha.vercel.app/',
     category: 'founder',
   },
   {
@@ -161,10 +169,10 @@ export const experience: ExperienceItem[] = [
     body: 'Point of contact between classmates and faculty for a full year group of mechanical engineering students.',
   },
   {
-    role: 'Physics Tutor',
-    org: 'Independent, KCSE prep',
+    role: 'Founder',
+    org: 'First Principles Tutoring',
     period: 'Current',
-    body: 'One-on-one tutoring built on first-principles derivation and error analysis — built full exam-prep resources covering Quantity of Heat, Work/Energy/Power/Machines, Equilibrium and Fluid Flow, all with detailed worked solutions.',
+    body: 'One-to-one Math, Physics and Chemistry for high-performing Form 2–4 students — diagnostic-led, built on first-principles derivation and error analysis, with full exam-prep resources covering Quantity of Heat, Work/Energy/Power/Machines, Equilibrium and Fluid Flow, all with detailed worked solutions.',
   },
   {
     role: 'Member',
